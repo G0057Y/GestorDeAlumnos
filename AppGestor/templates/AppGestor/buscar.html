@@ -1,0 +1,16 @@
+{% extends 'AppGestor/base.html' %}
+{% block title %}Buscar Alumno{% endblock %}
+{% block content %}
+<h2>Buscar Alumno</h2>
+<form method="get">
+    {{ form.as_p }}
+    <button type="submit">Buscar</button>
+</form>
+<ul>
+    {% for alumno in resultados %}
+        <li>{{ alumno.nombre }} {{ alumno.apellido }} - {{ alumno.curso }}</li>
+    {% empty %}
+        <li>No se encontraron resultados.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
