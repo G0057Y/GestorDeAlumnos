@@ -3,5 +3,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('cuentas/', include('accounts.urls')),
     path('', include('AppGestor.urls')),  # redirige a las urls de tu app
 ]
