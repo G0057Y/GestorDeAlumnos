@@ -1,10 +1,16 @@
 from django.db import models
 
+from ckeditor.fields import RichTextField  
+
 class Alumno(models.Model):
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
     email = models.EmailField()
     curso = models.CharField(max_length=50)
+    biografia = RichTextField(default="Sin biografía")
+    foto = models.ImageField(upload_to='alumnos/', null=True, blank=True)
+    fecha_ingreso = models.DateField()
+
 
     def __str__(self):
         return f"{self.apellido}, {self.nombre}"

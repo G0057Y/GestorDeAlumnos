@@ -2,6 +2,10 @@ from django.shortcuts import render
 from .forms import AlumnoFormulario, AsistenciaFormulario, TrabajoPracticoFormulario, BuscarAlumnoFormulario
 from .models import Alumno, Asistencia, TrabajoPractico
 
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
 def inicio(request):
     return render(request, "AppGestor/inicio.html")
 
@@ -78,3 +82,30 @@ def buscarAlumno(request):
     else:
         form = BuscarAlumnoFormulario()
     return render(request, "AppGestor/buscar.html", {"form": form, "resultados": resultados})
+
+### CRUD DE ALUMNO ###
+
+class AlumnoListView(ListView):
+    model = Alumno
+    template_name = 'AppGestor/alumno_list.html'
+
+class AlumnoDetailView(DetailView):
+    model = Alumno
+    template_name = 'AppGestor/alumno_detail.html'
+
+class AlumnoCreateView(LoginRequiredMixin, CreateView):
+    model = Alumno
+    fields = ['nombre', 'apellido', 'email', 'curso', 'biografia', 'foto', 'fecha_ingreso']
+    template_name = 'AppGestor/alumno_form.html'
+    success_url = '/alumnos/'
+
+class AlumnoUpdateView(LoginRequiredMixin, UpdateView):
+    model = Alumno
+    fields = ['nombre', 'apellido', 'email', 'curso', 'biografia', 'foto', 'fecha_ingreso']
+    template_name = 'AppGestor/alumno_form.html'
+    success_url = '/alumnos/'
+
+class AlumnoDeleteView(LoginRequiredMixin, DeleteView):
+    model = Alumno
+    template_name = 'AppGestor/alumno_confirm_delete.html'
+##### 
