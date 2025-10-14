@@ -40,7 +40,7 @@ ROOT_URLCONF = 'GestorDocente.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],  # carpeta de templates en la raíz
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # carpeta de templates en la raíz
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,6 +80,11 @@ USE_TZ = True
 # Archivos estáticos
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
+
+MEDIA_URL = ''
+MEDIA_ROOT = os.path.join(BASE_DIR, '')
+
 
 # Configuración por defecto de clave primaria
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

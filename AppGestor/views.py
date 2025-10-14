@@ -5,6 +5,9 @@ from .models import Alumno, Asistencia, TrabajoPractico
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
+
 
 def inicio(request):
     return render(request, "AppGestor/inicio.html")
@@ -30,7 +33,12 @@ def asistenciaFormulario(request):
         form = AsistenciaFormulario()
     return render(request, "AppGestor/formulario.html", {"form": form, "titulo": "Registrar Asistencia"})
 '''
+@login_required
 def asistenciaFormulario(request):
+    #Solo lo muestro a los docentes
+    if not request.user.usuarioextendido.es_docente:
+        return HttpResponseForbidden("Solo los docentes pueden registrar asistencia.")
+
     if request.method == "POST":
         form = AsistenciaFormulario(request.POST)
         if form.is_valid():

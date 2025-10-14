@@ -10,4 +10,23 @@
     <img src="{{ perfil.avatar.url }}" alt="Avatar" style="max-width:200px;">
   {% endif %}
   <p><a href="{% url 'editar_perfil' %}">Editar perfil</a></p>
+  
+<h3>Asistencias</h3>
+<ul>
+  {% for asistencia in asistencias %}
+    <li>{{ asistencia.fecha }} - {{ asistencia.presente|yesno:"Presente,Ausente" }}</li>
+  {% empty %}
+    <li>No hay asistencias registradas.</li>
+  {% endfor %}
+</ul>
+
+<h3>Trabajos Prácticos</h3>
+<ul>
+  {% for tp in trabajos %}
+    <li>{{ tp.titulo }} - {{ tp.entregado|yesno:"Entregado,Pendiente" }} ({{ tp.fecha_entrega }})</li>
+  {% empty %}
+    <li>No hay trabajos registrados.</li>
+  {% endfor %}
+</ul>
+
 {% endblock %}

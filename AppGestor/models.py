@@ -9,7 +9,7 @@ class Alumno(models.Model):
     curso = models.CharField(max_length=50)
     biografia = RichTextField(default="Sin biografía")
     foto = models.ImageField(upload_to='alumnos/', null=True, blank=True)
-    fecha_ingreso = models.DateField()
+    fecha_ingreso = models.DateField(default="1900-01-01")
 
 
     def __str__(self):
