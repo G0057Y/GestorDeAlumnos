@@ -7,6 +7,9 @@ Este proyecto fue desarrollado como parte del curso de Python con Django en Code
 
 La plataforma simula un sistema de gestión académica donde los docentes pueden registrar alumnos, cargar asistencias y trabajos prácticos, mientras que los alumnos pueden acceder a su perfil y visualizar sus datos.
 
+## Video Explicativo:
+https://youtu.be/i3xK2HoHmLc
+
 ## ⚙️ Instalación
 
 1. Clonar el repositorio:
