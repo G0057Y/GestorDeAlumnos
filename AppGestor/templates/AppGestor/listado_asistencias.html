@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Listado de Asistencias</h2>
+<table>
+    <tr>
+        <th>Alumno</th>
+        <th>Fecha</th>
+        <th>Presente</th>
+    </tr>
+    {% for asistencia in asistencias %}
+    <tr>
+        <td>{{ asistencia.alumno.apellido }}, {{ asistencia.alumno.nombre }}</td>
+        <td>{{ asistencia.fecha }}</td>
+        <td>{{ asistencia.presente|yesno:"Sí,No" }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

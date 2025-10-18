@@ -8,10 +8,40 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 
+from django.contrib.auth.models import User
+from accounts.models import UsuarioExtendido
+
 
 def inicio(request):
     return render(request, "AppGestor/inicio.html")
 
+def alumnoFormulario(request):
+    if request.method == "POST":
+        form = AlumnoFormulario(request.POST)
+        if form.is_valid():
+            alumno = Alumno.objects.create(**form.cleaned_data)
+
+            # Crear usuario asociado
+            username = f"{alumno.nombre.lower()}.{alumno.apellido.lower()}"
+            if not User.objects.filter(username=username).exists():
+                user = User.objects.create_user(
+                    username=username,
+                    email=alumno.email,
+                    password="1234"
+                )
+                UsuarioExtendido.objects.create(
+                    user=user,
+                    es_docente=False,
+                    alumno=alumno
+                )
+
+            return render(request, "AppGestor/exito.html")
+    else:
+        form = AlumnoFormulario()
+    return render(request, "AppGestor/formulario.html", {"form": form, "titulo": "Agregar Alumno"})
+
+
+'''
 def alumnoFormulario(request):
     if request.method == "POST":
         form = AlumnoFormulario(request.POST)
@@ -21,6 +51,7 @@ def alumnoFormulario(request):
     else:
         form = AlumnoFormulario()
     return render(request, "AppGestor/formulario.html", {"form": form, "titulo": "Agregar Alumno"})
+'''
 '''
 def asistenciaFormulario(request):
     if request.method == "POST":
@@ -117,3 +148,14 @@ class AlumnoDeleteView(LoginRequiredMixin, DeleteView):
     model = Alumno
     template_name = 'AppGestor/alumno_confirm_delete.html'
 ##### 
+
+##### Vista de las asistencias ####
+
+@login_required
+def listado_asistencias(request):
+    if not request.user.usuarioextendido.es_docente:
+        return HttpResponseForbidden("Solo los docentes pueden ver el listado de asistencias.")
+    
+    asistencias = Asistencia.objects.select_related('alumno').order_by('-fecha')
+    return render(request, 'AppGestor/listado_asistencias.html', {'asistencias': asistencias})
+#####

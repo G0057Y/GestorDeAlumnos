@@ -14,7 +14,21 @@ def registro(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
-            UsuarioExtendido.objects.create(user=user, es_docente=form.cleaned_data['es_docente'])
+            usuario_ext = UsuarioExtendido.objects.create(user=user, es_docente=form.cleaned_data['es_docente'])
+            
+            # Si no es docente, crear también el Alumno, porque son 2 entidades separadas
+            # Sin esto me creaba un usuario genérico que no tenia un alumno asociado.
+            if not usuario_ext.es_docente:
+                alumno = Alumno.objects.create(
+                    nombre=user.first_name or user.username,
+                    apellido=user.last_name or "",
+                    email=user.email,
+                    curso="Sin curso",
+                    fecha_ingreso="1900-01-01"
+                )
+                usuario_ext.alumno = alumno
+                usuario_ext.save()
+            
             login(request, user)
             return redirect('perfil')
     else:

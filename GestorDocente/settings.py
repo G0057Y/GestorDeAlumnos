@@ -18,9 +18,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'AppGestor',  # tu aplicación principal
+    'AppGestor',  # aplicación principal
     'ckeditor', # Para usar texto enriquecido
-    'accounts',  # 👈 nueva app para usuarios
+    'accounts',  # nueva app para usuarios
 ]
 
 # Middlewares

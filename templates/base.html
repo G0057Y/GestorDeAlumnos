@@ -11,6 +11,9 @@
         <a href="{% url 'asistenciaFormulario' %}">Registrar Asistencia</a> |
         <a href="{% url 'trabajoFormulario' %}">Registrar Trabajo</a> |
         <a href="{% url 'buscarAlumno' %}">Buscar Alumno</a>
+        {% if user.is_authenticated and user.usuarioextendido.es_docente %}
+         <a href="{% url 'listado_asistencias' %}">Asistencias</a>
+  {% endif %}
     </nav>
     <hr>
     

@@ -18,5 +18,7 @@ urlpatterns = [
     path('alumnos/crear/', AlumnoCreateView.as_view(), name='alumno_create'),
     path('alumnos/<int:pk>/editar/', AlumnoUpdateView.as_view(), name='alumno_update'),
     path('alumnos/<int:pk>/borrar/', AlumnoDeleteView.as_view(), name='alumno_delete'),
+    #Vista asistencias
+    path('asistencias/', views.listado_asistencias, name='listado_asistencias'),
 
 ]

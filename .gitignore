@@ -6,7 +6,7 @@ env/
 
 # Archivos de base de datos
 *.sqlite3
-
+avatars/
 # Archivos de caché de Python
 __pycache__/
 *.py[cod]
