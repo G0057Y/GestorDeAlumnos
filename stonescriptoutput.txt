@@ -1447,5 +1447,6 @@ prelude()
 ?ai.enabled&!ai.paused
   progress()
 :
+  equip quarterstaff
   healwalk()
 draw_ui()
