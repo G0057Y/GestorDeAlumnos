@@ -18,7 +18,7 @@ var elemental_items = [
     ["default", "vigor wand dL+13"],
   ],
   ["shield",
-    ["default", "towering +10", "bashing +11"],
+    ["default", "tower +10", "bashing +11"],
   ],
 ]
 var for_melee_single_target = ["sword"]
@@ -68,6 +68,8 @@ var ui_show_statuses = true
 var ui_show_debug = false
 var speedrun = false
 var harvesting = false
+var heal_stone = "ouroboros"
+var idle_stone = "trisk"
 
 func progress()
   ?pickup.distance<9
@@ -136,6 +138,15 @@ func progress()
   :
     dbg("Fighting unknown boss:"+fi)
     auto_melee_boss()
+var qs_f=false
+func qs_quest_step()
+  ?item.GetCount("quarterstaff")=0
+    return false
+  ?qs_f
+    qs_f=false
+    return equip_L("quarterstaff")
+  qs_f=true
+  return false
 func healwalk()
   ?ff&(fd<23)
     ?hp<(maxhp/4)&item.potion!empty&
@@ -149,15 +160,19 @@ func healwalk()
     return equip_L("trisk")&summon_a()
   :?can_qs_dash()
     return qs_dash()
+  ?qs_quest_step()
+    return true
   ae_shield()
-  ?hp<maxhp
-    return equip_L("ouroboros")
-  return equip_L("trisk")
+  ?hp<maxhp&item.GetCount(heal_stone)>0
+    return equip_L(heal_stone)
+  ?item.GetCount(idle_stone)>0
+    return equip_L(idle_stone)
+  return true
 func avoid_explosion()
   ?fd<5
     return try_evade()
   return ae_L("melee",false)&
-  ^equip_R("dashing")
+  ^ae_shield()
 var scrolling=0
 func smite_two_screens()
   var cd_ok=get_cd("blade")<=0
@@ -1447,6 +1462,5 @@ prelude()
 ?ai.enabled&!ai.paused
   progress()
 :
-  equip quarterstaff
   healwalk()
 draw_ui()
